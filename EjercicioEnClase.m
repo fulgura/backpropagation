@@ -51,8 +51,8 @@ AVGError = sum(ErrorSalida .^2);
 % Algoritmo
 
 alfa = 0.02;
-CotaError = 0.001;
-MAX_ITERA = 500;
+CotaError = 0.0001;
+MAX_ITERA = 2000;
 itera = 0;
 
 while ( AVGError > CotaError ) & ( itera <= MAX_ITERA );
