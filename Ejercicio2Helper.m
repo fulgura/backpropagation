@@ -30,7 +30,7 @@ classdef Ejercicio2Helper
             
             modificador = min(feval(Funcion,'output'));
             
-            nuevaClase = ones(CD.CantidadPatrones, 5) * modificador;
+            nuevaClase = ones(CD.CantidadPatrones, 5) .* modificador;
             for index = 1:CD.CantidadPatrones
                 nuevaClase(index, CD.Clase(index)) = 1;
             end

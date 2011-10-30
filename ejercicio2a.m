@@ -7,12 +7,14 @@ clc
 
 CD = ConjuntoDatos(Ejercicio2Helper.LeerFilasArchivo('drug5.csv', 10), 1, 6, 7);
 CD.Escalar;
+[Training Test] = CD.Separar(0.8);
 
-% CD.Datos
-% CD.Patrones
-%%CD.Clase
 
-Ejercicio2Helper.TransformarClase(CD, 'tansig')
-Ejercicio2Helper.TransformarClase(CD, 'logsig')
+claseTansig = Ejercicio2Helper.TransformarClase(Training, 'tansig');
+
+BP = BackPropagation(Training.Patrones', claseTansig', 'tansig', 'tansig', 4, 5);
+
+BP.Procesar(0.3, 0.0001, 100)
+
 
 
