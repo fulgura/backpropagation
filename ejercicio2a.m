@@ -19,5 +19,5 @@ BP = BackPropagation(Training.Patrones', claseTrainingTansig', 'tansig', 'tansig
 
 
 CantidadCorrectos = BackPropagation.CalcularResultados(BP.P, BP.T, W1, b1, W2, b2, BP.FuncionOculta, BP.FuncionSalida)
-CantidadCorrectos = BackPropagation.CalcularResultados(BP.P, BP.T, W1, b1, W2, b2, BP.FuncionOculta, BP.FuncionSalida)
+% CantidadCorrectos = BackPropagation.CalcularResultados(BP.P, BP.T, W1, b1, W2, b2, BP.FuncionOculta, BP.FuncionSalida)
 
