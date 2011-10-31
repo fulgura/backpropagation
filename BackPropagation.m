@@ -41,7 +41,7 @@ classdef BackPropagation
         % b
         % iteracion
         
-        function [W1 b1 W2 b2 b iteracion] = Procesar(self, Alfa, CotaError, MAX_ITE)
+        function [W1 b1 W2 b2 iteracion AVGError] = Procesar(self, Alfa, CotaError, MAX_ITE)
             
             
             W1 = rand(self.Ocultas,self.CantidadAtributos) - 0.5 * ones(self.Ocultas,self.CantidadAtributos);
@@ -57,24 +57,69 @@ classdef BackPropagation
                 iteracion = iteracion + 1;
                 AVGError = 0;
                 for patr = 1:self.CantidadPatrones;
+                    
                     % Calcular el error de c/u de las neuronas de salida
                     % Calcular el error de c/u de la neuronas ocultas
                     
-                    neta_oculta = W1 * self.P(:,patr) + b1;
-                    f_neta_oculta = feval(self.FuncionOculta, neta_oculta);
+                    respuesta_capa_oculta = W1 * self.P(:,patr) + b1;
+                    f_activacion_respuesta_capa_oculta = feval(self.FuncionOculta, respuesta_capa_oculta);
+                    
+                    respuesta_capa_salida = W2 * f_activacion_respuesta_capa_oculta + b2;
+                    f_activacion_respuesta_capa_salida = feval(self.FuncionSalida, respuesta_capa_salida);
                     
                     
-                    neta_salida = W2 * f_neta_oculta + b2;
-                    f_neta_salida = feval(self.FuncionSalida, neta_salida);
+                    % Multiplico por la derivada de la funcion de salida
+                    ErrorSalida = (self.T(:,patr) - f_activacion_respuesta_capa_salida);
+                    DeltaSalida = feval([ 'd' self.FuncionSalida], respuesta_capa_salida, f_activacion_respuesta_capa_salida).* ErrorSalida;
+                    DeltaOculta = feval([ 'd' self.FuncionOculta], respuesta_capa_oculta, f_activacion_respuesta_capa_oculta).* (W2' * ErrorSalida);
                     
+                    AVGError = AVGError + sum(ErrorSalida .^2);
+                    
+                    % actualizar los pesos (W y B)
+                    W2 = W2 + Alfa * DeltaSalida * f_activacion_respuesta_capa_oculta';
+                    b2 = b2 + Alfa * DeltaSalida;
+                    
+                    W1 = W1 + Alfa * DeltaOculta * self.P(:,patr)' ;
+                    b1 = b1 + Alfa * DeltaOculta;
                     
                     
                 end
                 
+                [iteracion AVGError];
             end
             
         end
+        
     end
+    %% Seccion para los m?todos de clase
+    methods(Static)
+        %% Evalua el resultado de un procesamieno y calcula la cantidad de
+        % correctamente clasificados
+        function [CantidadCorrectos] = CalcularResultados(P, T, W1, b1, W2, b2, FuncionOculta, FuncionSalida)
+            
+            [Entradas, CantPatrones] = size(P);
+            
+            NETA_OCULTA = (W1 * P) + b1 * ones(1, CantPatrones);
+            F_NETA_OCULTA = feval(FuncionOculta, NETA_OCULTA);
+            
+            NETA_SALIDA = W2 * F_NETA_OCULTA + b2 * ones(1, CantPatrones);
+            Y = feval(FuncionSalida, NETA_SALIDA);
+            
+            clases = feval(FuncionSalida, 'output');
+            cant = length(clases);
+            
+            for index = 1:cant
+                clase = clases(index);
+                indices = Y >= (clase - 0.2) & Y <= (clase + 0.2);
+                Y(indices) = clase;
+            end
+            
+            %Calculo solo la cantidad de correctos
+            correctos = T == 1;
+            CantidadCorrectos = sum( Y(correctos) == 1);
+        end
+    end
+    
     
 end
 
