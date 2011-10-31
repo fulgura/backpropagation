@@ -17,15 +17,15 @@ classdef BackPropagation
     
     methods
         %% Crea una nueva instancia de la red neuronal backpropagation
-        function obj = BackPropagation(P, T, FuncionOculta, FuncionSalida, Ocultas, Salidas)
-            obj.P = P;
-            obj.T = T;
-            obj.FuncionOculta = FuncionOculta ;
-            obj.FuncionSalida = FuncionSalida;
-            obj.Ocultas = Ocultas;
-            obj.Salidas = Salidas;
+        function self = BackPropagation(P, T, FuncionOculta, FuncionSalida, Ocultas, Salidas)
+            self.P = P;
+            self.T = T;
+            self.FuncionOculta = FuncionOculta ;
+            self.FuncionSalida = FuncionSalida;
+            self.Ocultas = Ocultas;
+            self.Salidas = Salidas;
             
-            [obj.CantidadPatrones, obj.CantidadAtributos] = size(obj.P);
+            [self.CantidadAtributos, self.CantidadPatrones] = size(self.P);
             
         end
         %% Procesa los datos con los que fu? creada: {P, T, FuncionOculta,
@@ -41,14 +41,14 @@ classdef BackPropagation
         % b
         % iteracion
         
-        function [W1 b1 W2 b2 b iteracion] = Procesar(obj, Alfa, CotaError, MAX_ITE)
+        function [W1 b1 W2 b2 b iteracion] = Procesar(self, Alfa, CotaError, MAX_ITE)
             
             
-            W1 = rand(obj.Ocultas,obj.CantidadPatrones) - 0.5 * ones(obj.Ocultas,obj.CantidadPatrones);
-            b1 = rand(obj.Ocultas,1) - 0.5 * ones(obj.Ocultas,1);
+            W1 = rand(self.Ocultas,self.CantidadAtributos) - 0.5 * ones(self.Ocultas,self.CantidadAtributos);
+            b1 = rand(self.Ocultas,1) - 0.5 * ones(self.Ocultas,1);
             
-            W2 = rand(obj.Salidas,obj.Ocultas) - 0.5 * ones(obj.Salidas, obj.Ocultas);
-            b2 = rand(obj.Salidas,1) - 0.5 * ones(obj.Salidas,1);
+            W2 = rand(self.Salidas,self.Ocultas) - 0.5 * ones(self.Salidas, self.Ocultas);
+            b2 = rand(self.Salidas,1) - 0.5 * ones(self.Salidas,1);
             
             AVGError = 1;
             iteracion = 0;
@@ -56,7 +56,20 @@ classdef BackPropagation
             while ( AVGError > CotaError ) & ( iteracion <= MAX_ITE  )
                 iteracion = iteracion + 1;
                 AVGError = 0;
-                
+                for patr = 1:self.CantidadPatrones;
+                    % Calcular el error de c/u de las neuronas de salida
+                    % Calcular el error de c/u de la neuronas ocultas
+                    
+                    neta_oculta = W1 * self.P(:,patr) + b1;
+                    f_neta_oculta = feval(self.FuncionOculta, neta_oculta);
+                    
+                    
+                    neta_salida = W2 * f_neta_oculta + b2;
+                    f_neta_salida = feval(self.FuncionSalida, neta_salida);
+                    
+                    
+                    
+                end
                 
             end
             
