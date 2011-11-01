@@ -8,8 +8,9 @@ clc
 CD = ConjuntoDatos(Ejercicio2Helper.LeerArchivo('drug5.csv'), 1, 6, 7);
 CD.Escalar;
 
-FuncionCapaOculta = 'tansig';
+FuncionCapaOculta = 'logsig';
 FuncionCapaSalida = 'tansig';
+
 Alfa = 0.3;
 CotaError = 0.000001;
 MAX_ITER = 5000;
@@ -23,7 +24,7 @@ for indice = 1 : 5
     claseTrainingTansig = Ejercicio2Helper.TransformarClase(Training, FuncionCapaSalida);
     claseTestTansig = Ejercicio2Helper.TransformarClase(Test, FuncionCapaSalida);
     
-    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 4, 5);
+    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 1, 5);
     
     [W1 b1 W2 b2 iteracion AVGError] = BP.Procesar(Alfa, CotaError, MAX_ITER);
     
@@ -34,8 +35,6 @@ for indice = 1 : 5
     
 end
 
-FuncionCapaOculta = 'tansig';
-FuncionCapaSalida = 'logsig';
 
 for indice = 1 : 5
     
@@ -44,7 +43,7 @@ for indice = 1 : 5
     claseTrainingTansig = Ejercicio2Helper.TransformarClase(Training, FuncionCapaSalida);
     claseTestTansig = Ejercicio2Helper.TransformarClase(Test, FuncionCapaSalida);
     
-    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 4, 5);
+    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 3, 5);
     
     [W1 b1 W2 b2 iteracion AVGError] = BP.Procesar(Alfa, CotaError, MAX_ITER);
     
@@ -55,8 +54,6 @@ for indice = 1 : 5
     
 end
 
-FuncionCapaOculta = 'logsig';
-FuncionCapaSalida = 'logsig';
 
 for indice = 1 : 5
     
@@ -65,7 +62,7 @@ for indice = 1 : 5
     claseTrainingTansig = Ejercicio2Helper.TransformarClase(Training, FuncionCapaSalida);
     claseTestTansig = Ejercicio2Helper.TransformarClase(Test, FuncionCapaSalida);
     
-    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 4, 5);
+    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 5, 5);
     
     [W1 b1 W2 b2 iteracion AVGError] = BP.Procesar(Alfa, CotaError, MAX_ITER);
     
@@ -76,8 +73,7 @@ for indice = 1 : 5
     
 end
 
-FuncionCapaOculta = 'logsig';
-FuncionCapaSalida = 'tansig';
+
 
 for indice = 1 : 5
     
@@ -86,7 +82,7 @@ for indice = 1 : 5
     claseTrainingTansig = Ejercicio2Helper.TransformarClase(Training, FuncionCapaSalida);
     claseTestTansig = Ejercicio2Helper.TransformarClase(Test, FuncionCapaSalida);
     
-    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 4, 5);
+    BP = BackPropagation(Training.Patrones', claseTrainingTansig', FuncionCapaOculta, FuncionCapaSalida, 7, 5);
     
     [W1 b1 W2 b2 iteracion AVGError] = BP.Procesar(Alfa, CotaError, MAX_ITER);
     

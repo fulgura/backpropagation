@@ -53,7 +53,7 @@ classdef BackPropagation
             AVGError = 1;
             iteracion = 0;
             
-            while ( AVGError > CotaError ) & ( iteracion <= MAX_ITE  )
+            while ( AVGError > CotaError ) & ( iteracion < MAX_ITE  )
                 iteracion = iteracion + 1;
                 AVGError = 0;
                 for patr = 1:self.CantidadPatrones;
@@ -98,25 +98,27 @@ classdef BackPropagation
         function [CantidadCorrectos] = CalcularResultados(P, T, W1, b1, W2, b2, FuncionOculta, FuncionSalida)
             
             [Entradas, CantPatrones] = size(P);
-            
             NETA_OCULTA = (W1 * P) + b1 * ones(1, CantPatrones);
             F_NETA_OCULTA = feval(FuncionOculta, NETA_OCULTA);
             
             NETA_SALIDA = W2 * F_NETA_OCULTA + b2 * ones(1, CantPatrones);
             Y = feval(FuncionSalida, NETA_SALIDA);
             
-            clases = feval(FuncionSalida, 'output');
-            cant = length(clases);
-            
-            for index = 1:cant
-                clase = clases(index);
-                indices = Y >= (clase - 0.2) & Y <= (clase + 0.2);
-                Y(indices) = clase;
+            falso = 0;
+            verdadero = 1;
+            if(strcmp(FuncionSalida,'tansig') > 0)
+                falso = -1;
             end
             
+            indices = Y >= (falso - 0.2) & Y <= (falso + 0.2);
+            Y(indices) = falso;
+            
+            indices = Y >= (verdadero - 0.2) & Y <= (verdadero + 0.2);
+            Y(indices) = verdadero;
+            
+            
             %Calculo solo la cantidad de correctos
-            correctos = T == 1;
-            CantidadCorrectos = sum( Y(correctos) == 1);
+            CantidadCorrectos = sum(all(Y == T,1));
         end
     end
     
