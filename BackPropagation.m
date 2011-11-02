@@ -1,22 +1,33 @@
 classdef BackPropagation
     %% BACKPROPAGATION Implementacion de una red neuronal tipo
     %backpropagation
-    %   Detailed explanation goes here
+    %   Este objeto es la implementaci?n del algoritmo de backpropagation
+    % utilizado para hacer predicciones en una red neuronal multiperceptr?n.
     
+    %% Definici?n de propiedades
     properties
+        %% Matriz de Patrones
         P
+        %% Matriz con la clase (Para tansig o logsig)
         T
+        %% Cantidad de Patrones que posee la matriz P
         CantidadPatrones
+        %% Cantidad de atributos que posee la matriz P
         CantidadAtributos
-        
+        %% Funci?n utilizada para calcular la salida de la capa oculta
+        % aplicada a los valores netos de la capa oculta.
         FuncionOculta
+        %% Funci?n utilizada para calcular la salida de la capa de salida
+        % aplicada a los valores netos de la capa de salida.
         FuncionSalida
+        %% Cantidad de neuronas en la capa oculta
         Ocultas
+        %% Cantidad de neuronas en la capa de salida
         Salidas
     end
     
     methods
-        %% Crea una nueva instancia de la red neuronal backpropagation
+        %% Crea una nueva instancia de la red neuronal multiperceptr?n
         function self = BackPropagation(P, T, FuncionOculta, FuncionSalida, Ocultas, Salidas)
             self.P = P;
             self.T = T;
