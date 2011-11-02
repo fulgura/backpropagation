@@ -27,7 +27,17 @@ classdef BackPropagation
     end
     
     methods
-        %% Crea una nueva instancia de la red neuronal multiperceptr?n
+        %% Crea una nueva instancia de la red neuronal multiperceptr?n que
+        % procesa los patrones utilizando un algoritmo de backpropagation.
+        %
+        % P : es la matriz de patrones
+        % T : es la matriz de clases
+        % FuncionOculta : funci?n utilizada para calcular la salida de la
+        % capa de oculta
+        % FuncionSalida : funci?n utilizada para calcular la salida de la
+        % capa de salida.
+        % Ocultas:  Cantidad de neuronas a utilizar en la capa oculta
+        % Salidas : Cantidad de neuronas a utilizar en la capa de salida
         function self = BackPropagation(P, T, FuncionOculta, FuncionSalida, Ocultas, Salidas)
             self.P = P;
             self.T = T;
@@ -39,18 +49,29 @@ classdef BackPropagation
             [self.CantidadAtributos, self.CantidadPatrones] = size(self.P);
             
         end
-        %% Procesa los datos con los que fu? creada: {P, T, FuncionOculta,
-        % FuncionSalida, Ocultas, Salidas} con los par?metros necesarios
-        % para poder correr la red:
+        %% Procesar(...)
+        %
+        % Procesa los datos con los que fu? creada: 
+        % {P, T, FuncionOculta, FuncionSalida, Ocultas, Salidas} 
+        % con los par?metros necesarios para poder correr la red:
         %
         % Alfa : Alfa utilizado para correr el algoritmo
-        % CotaError
-        % MAX_ITE
+        % CotaError : Valor de la cota de error m?xima soportada
+        % MAX_ITE : Cantidad m?xima de iteraciones que el algoritmo puede
+        % realizar
         %
-        % Retorna los siguientes valores
-        % W
-        % b
-        % iteracion
+        % Valores de retorno:
+        % W1 : ?ltimo vector de pesos obtenido para la capa oculta cuando 
+        %      el algortimo haya finalizado de procesar 
+        % b1 : ?ltimo bias obtenido para la capa oculta.
+        % W2 : ?ltimo vector de pesos obtenido para la capa de salida cuando 
+        %      el algortimo haya finalizado de procesar 
+        % b2 : ?ltimo bias obtenido para la capa oculta.
+        % iteracion : n?mero de la ?ltima iteraci?n realizada antes que 
+        %             el algortimo haya finalizado de procesar 
+        % AVGError : ?ltimo error promedio obtenido al procesar por 
+        %            ?ltima vez los patrones antes que el algoritmo 
+        %            haya finalizado de procesar.
         
         function [W1 b1 W2 b2 iteracion AVGError] = Procesar(self, Alfa, CotaError, MAX_ITE)
             
@@ -104,8 +125,27 @@ classdef BackPropagation
     end
     %% Seccion para los m?todos de clase
     methods(Static)
-        %% Evalua el resultado de un procesamieno y calcula la cantidad de
+        %% CalcularResultados
+        % Evalua el resultado de un procesamieno y calcula la cantidad de
         % correctamente clasificados
+        %
+        % P : es la matriz de patrones
+        % T : es la matriz de clases
+        % W1 : ?ltimo vector de pesos obtenido para la capa oculta cuando 
+        %      el algortimo haya finalizado de procesar 
+        % b1 : ?ltimo bias obtenido para la capa oculta.
+        % W2 : ?ltimo vector de pesos obtenido para la capa de salida cuando 
+        %      el algortimo haya finalizado de procesar 
+        % b2 : ?ltimo bias obtenido para la capa de salida.
+        % FuncionOculta : funci?n utilizada para calcular la salida de la
+        %                 capa de oculta
+        % FuncionSalida : funci?n utilizada para calcular la salida de la
+        %                 capa de salida.
+        % 
+        % Valores de retorno:
+        % 
+        % CantidadCorrectos : Cantidad de patrones correctamente
+        %                     clasificados.
         function [CantidadCorrectos] = CalcularResultados(P, T, W1, b1, W2, b2, FuncionOculta, FuncionSalida)
             
             [Entradas, CantPatrones] = size(P);
