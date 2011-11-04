@@ -5,7 +5,7 @@ clc
 
 %% Lectura de los datos de entrada: Archivos drugs.csv
 
-CD = ConjuntoDatos(Ejercicio2Helper.LeerArchivo('drug5.csv'), 1, 6, 7);
+CD = ConjuntoDatos(Ejercicio2Helper.LeerFilasArchivo('drug5.csv', 10), 1, 6, 7);
 CD.Escalar;
 
 FuncionCapaOculta = 'logsig';
@@ -13,14 +13,16 @@ FuncionCapaSalida = 'tansig';
 
 Alfa = 0.3;
 CotaError = 0.000001;
-MAX_ITER = 50;
+MAX_ITER = 100;
 
 fprintf('indice,Alfa,CotaError,MAX_ITER,iteracion,FuncionCapaOculta,FuncionCapaSalida,CantidadCorrectosTraining,PorcentajeCorrectosTraining,CantidadCorrectosTest,PorcentajeCorrectosTest\n');
 
-for indice = 1 : 1
+for indice = 1 : 5
     
     CD.Mezclar();
+    
     [Training Test] = CD.Separar(0.8);
+
     claseTrainingTansig = Ejercicio2Helper.TransformarClase(Training, FuncionCapaSalida);
     claseTestTansig = Ejercicio2Helper.TransformarClase(Test, FuncionCapaSalida);
     
